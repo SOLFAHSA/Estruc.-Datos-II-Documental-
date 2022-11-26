@@ -5,8 +5,8 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
+  <meta name="description">
+  <meta name="author">
   <title>Crear Tarea</title>
   <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
   <link href="/public/css/styles.css" rel="stylesheet" />
@@ -50,13 +50,10 @@
         <div class="sb-sidenav-menu">
           <div class="nav">
             <div class="sb-sidenav-menu-heading">Paginas</div>
-            <a class="nav-link" href="/carpetas"><div class="sb-nav-link-icon"> <i class="fa-solid fa-folder-open"></i></i></div>
-              Documentos
-            </a>
-            <a class="nav-link" href="/listatareas"> <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
+            <a class="nav-link" href="/tareas">
+              <div class="sb-nav-link-icon"><i class="fa-solid fa-list-check"></i></div>
               Tareas
             </a>
-
             <div class="sb-sidenav-menu-heading">Interface</div>
             <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts"
               aria-expanded="false" aria-controls="collapseLayouts">
@@ -96,99 +93,36 @@
     </div>
     <div id="layoutSidenav_content">
       <main>
-        <div class="container-fluid px-4"> 
 
-
-          <div class="container py-5 h-100">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-              <div class="">
-                <div class="card d-flex">
-                  <div class="card-header p-3">
-                    <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Lista de Tareas</h5>  
-                  </div>
-                  <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px">
-
-                    <table class="table table-hover table-responsive ">
-                      <thead>
-                        <tr >
-                          <th scope="col">#</th>
-                          <th scope="col">Nombre tarea</th>
-                          <th scope="col">Archivo</th>
-                          <th scope="col">Departamento Asignado</th>
-                          <th scope="col">Prioridad</th>
-                          <th scope="col">Estado</th>
-                          <th scope="col">Fecha de vencimeinto</th>
-                          <th scope="col">Acciones</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                 
-                    <%results.forEach((tarea)=>{ %>
-                       
-                    
-                          <tr>
-                            <td hidden scope="row"><%= tarea.idtarea%></td>
-                            <td><%=1%></td>
-                            <td ><%= tarea.NombreTarea%> </td>
-                            <td>  <a href="<%= tarea.RutaArchivo%>"> <img src="https://i.ibb.co/RBfq4hm/archivo-pdf.png"><%= tarea.Archivo%> </td>
-                            <td> <%= tarea.DepartamentoAsignado %> </td>
-                            <td> <%= tarea.Prioridad%> </td>
-                            <td> <%= tarea.Estado %> </td>
-                            <td><%= tarea.FechaVencimeinto.toLocaleDateString() %> </td>
-                            <td>
-                              <a href="/eliminartarea/<%= tarea.idtarea%>"  class="btn btn-danger">Eliminar</button>
-                              <a href="/editartarea/<%= tarea.idtarea%>" class="btn btn-info">Editar</button>
-                            </td>
-                          </tr>
-                          <% }) %>
-            
-                      </tbody>
-                    </table>
-
-
-                  </div>
-
-                  <div class="card-footer text-end p-3">
-
-                    <!-- Button trigger modal -->
-
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                      data-bs-target="#staticBackdrop">Crear Tarea</button>
+        <%if(tarea){%>
                     <!-- Modal -->
-                    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                      tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Crear Tarea</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
+                   <div class="container"></div>
                           
-                          <div class="modal-body ">
+                          <div class="mb-3 ">
 
-                            <form action="/guardar" method="post" enctype="multipart/form-data">
+                            <form action="/editartareas" method="post" enctype="multipart/form-data">
+                              <input id="idtarea" name="idtarea" type="hidden" value="<%=tarea.idtarea%>">
                             <div class="container">
                               <div class="mb-3 ">
                                 <label for="exampleDataList" class="form-label d-flex justify-content-lg-start">Nombre
                                   de la tarea</label>
-                                <input id="tarea" name="tarea"  class="form-control form-control-lg" type="text"
+                                <input id="tarea" name="tarea"  value="<%=tarea.tarea%>" class="form-control form-control-lg" type="text"
                                   aria-label=".form-control-lg example">
                               </div>
 
 
                               <div class="mb-3">
-                                <label for="formFileLg" class="form-label d-flex justify-content-lg-start">Adjuntar
-                                  Archivo: </label>
-                                <input  class="form-control form-control-lg" id="archivo" name="archivo" type="file">
+                                </label> <label for="formFileLg" class="form-label d-flex justify-content-lg-start">Adjuntar Archivo:
+                                <input  class="form-control form-control-lg" id="archivo" name="archivo" value="<%= tarea.archivo %>"  type="file">
                               </div>
 
                               <label for="exampleDataList"
                                 class="form-label d-flex justify-content-lg-start">Estado:</label>
                               <select class="form-select form-select-lg mb-3" id="estado" name="estado"
                                 aria-label=".form-select-lg example">
-                                <option value="Pendiente">Pendiente</option>
-                                <option value="haciendo">Haciendo</option>
-                                <option value="conmpletado">Completado</option>
+                                <option <%= tarea.estado=='Pendiente' ? "selected" : '' %> value="Pendiente">Pendiente</option>
+                                <option <%= tarea.estado=='haciendo' ? "selected" : '' %> value="haciendo">Haciendo</option>
+                                <option <%= tarea.estado=='Completado' ? "selected" : '' %> value="completado">Completado</option>
                                 
                               </select>
 
@@ -196,7 +130,7 @@
                               class="form-label d-flex justify-content-lg-start">Departamento Asignado:</label>
                             <select class="form-select form-select-lg mb-3" id="DepartamentoAsignado" name="DepartamentoAsignado"
                               aria-label=".form-select-lg example">
-                              <option value="Recursos Humanos">Recursos Humanos</option>
+                              <option <%= tarea.DepartamentoAsignado=="Recursos Humanos" "selected" : '' %> value="Recursos Humanos">Recursos Humanos</option>
                             </select>
                            
 
@@ -204,36 +138,31 @@
                               </label>
                               <select class="form-select form-select-lg mb-3" id="prioridad" name="prioridad"
                                 aria-label=".form-select-lg example">
-                                <option value="Alta" class="alert-danger">Alta</option>
-                                <option value="Media" class="alert-warning">Media</option>
-                                <option value="Baja" class="alert-success">Baja</option>
+                                <option <%= tarea.prioridad=='Alta' ? "selected" : '' %> value="Alta" class="alert-danger">Alta</option>
+                                <option <%= tarea.prioridad=='Media' ? "selected" : '' %> value="Media" class="alert-warning">Media</option>
+                                <option <%= tarea.prioridad=='Baja' ? "selected" : '' %> value="Baja" class="alert-success">Baja</option>
                               </select>
 
                               <div class="mb-3  ">
                                 <label for="exampleDataList" class="form-label d-flex justify-content-lg-start">Fecha de
                                   vencimiento: </label>
-                                <input class="form-control form-control-lg" type="date" id="fechavencimiento" name="fechavencimiento"
+                                <input class="form-control form-control-lg" type="date" id="fechavencimiento" name="fechavencimiento" value="<%= tarea.fechavencimeinto %>" 
                                   aria-label=".form-control-lg example">
                               </div>
+                              
+                             
+                             
+                                <button type="button" class="btn btn-secondary" >Close</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
 
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
-
-                              </div>
                             </form>
-
+                        
                           </div>
                         </div>
 
 
-                      </div>
-                    </div> 
-                    final modal
-                       
 
-                    
-               
+                        <%}%>
 
 
 
@@ -248,8 +177,6 @@
 
 
 
-
-            </div>
       </main>
       <footer class="py-4 bg-light mt-auto">
         <div class="container-fluid px-4">
